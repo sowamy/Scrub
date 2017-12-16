@@ -6,13 +6,14 @@
 using namespace std;
 //------------------------------------------------------------------------------------------------------------
 /* CLASS: texDocument
- * DESCRIPTION: An abstract base class which contains all of the general information and functionality of
+ * DESCRIPTION: A base class which contains all of the general information and functionality of
  *				a LaTeX document.
  */
 class texDocument {
 	protected:
 		string title;
 		string fileName;
+		string fileLocation;
 		ifstream docIN;
 		ofstream docOUT;
 
@@ -23,7 +24,7 @@ class texDocument {
 		string bodyBEGIN = "\\begin{document}";
 		string bodyEND = "\\end{document}";
 	public:
-		texDocument() {};
+		texDocument(string documentName);
 		~texDocument();
 		void createDocument();
 		void compileDocument();
@@ -36,6 +37,30 @@ class texDocument {
 		void setDocClass(string dc) {documentClass = dc;}
 		void setText(string t) {text = t;}
 }; // END CLASS texDocument
+
+texDocument::texDocument(string documentName) {
+	size_t fileExtDot = documentName.find_last_of('.');
+	size_t fileLocDot = documentName.find_last_of('/');
+
+	// Get title from <fileName> and ensure that the string ends with .tex
+	if( documentName.substr(fileExtDot+1) != "tex" ) {
+		title = documentName.substr(fileLocDot+1);
+		documentName.append(".tex");
+	} else {
+		title = documentName.substr(fileLocDot+1, fileExtDot);
+	} // END if...else
+
+	fileLocation = documentName.substr(0, fileLocDot);
+
+	// TEST: Print File Location
+	cout << "File Location: " << fileLocation << endl;
+	cout << "File Name: " << title << endl;
+
+	fileName = documentName;
+
+	docIN.open(fileName.c_str());
+	docOUT.open(fileName.c_str());
+}
 
 /* CLASS: texDocument
  * METHOD: ~texDocument
@@ -66,42 +91,9 @@ void texDocument::compileDocument(){
 	system(systemCall.c_str());
 }
 //------------------------------------------------------------------------------------------------------------
-/* CLASS: newDocument
- * PARENT: texDocument
- * DESCRIPTION: A derived class of <texDocument> which gererates a new document from scratch.
- */
-class newDocument : public texDocument {
-	public:
-		newDocument( string fileName );
-		~newDocument() {};
-}; // END CLASS newDocument
-
-/* CLASS: newDocument
- * PARENT: texDocument
- * DESCRIPTION: Constructor of the <newDocument> class. Creates a new
- */
-newDocument::newDocument( string file ) {
-
-	size_t fileExtDot = file.find_last_of('.');
-
-	// Get title from <fileName> and ensure that the string ends with .tex
-	if( file.substr(fileExtDot+1) != "tex" ) {
-		title = file;
-		file.append(".tex");
-	} else {
-		title = file.substr(0, fileExtDot);
-	} // END if...else
-
-	fileName = file;
-	// TEST: Print <fileName> before opening
-	// cout << "File Name: " << fileName << endl;
-
-	docOUT.open(fileName.c_str());
-} // END CONSTRUCTOR : newDocument
-//------------------------------------------------------------------------------------------------------------
 int main( void )
 {
-	newDocument a("newDocument.tex");
+	texDocument a("./Scrub/texFiles/new.tex");
 	a.setText("Test text\n\nTesting");
 	a.createDocument();
 	a.compileDocument();
