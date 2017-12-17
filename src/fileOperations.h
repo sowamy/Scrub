@@ -1,13 +1,3 @@
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <vector>
-#include <unistd.h>
-
-#define MAX_FILE_SIZE 100
-
-using namespace std;
-
 class File {
 	private:
 		string cwd;

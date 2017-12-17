@@ -1,8 +1,5 @@
 #include <iostream>
-#include <fstream>
 #include <string>
-#include <vector>
-#include <unistd.h>
 
 #include "tex.h"
 #include "fileOperations.h"
