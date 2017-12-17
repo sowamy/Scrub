@@ -33,7 +33,7 @@ class File {
 	public:
 		File();
 		File(string custom);
-		~File() {};
+		~File();
 		void back();
 		void forward(string folder);
 		// void download(string contents);
@@ -69,18 +69,23 @@ File::File(string custom) {
 	cwd = current;
 
 	// Check if the file is attacted to the end of <custom>. If it is, assign <fileLocation> and <fileName> appropriately.
-	if( custom[custom.size()-4] == '.') {
+	if( custom.find(".") < custom.size() ) {
 		size_t fileLoc = custom.find_last_of('/');
 		size_t fileDot = custom.find_last_of('.');
 
 		fileLocation = custom.substr(0, fileLoc);
-		size_t nameLen = custom.size() - fileLocation.size() - 5;
+		size_t nameLen = fileDot - fileLoc - 1;
 		fileName = custom.substr(fileLoc+1, nameLen);
 		fileType = custom.substr(fileDot+1);
 	} else {
 		fileLocation = custom;
 	}// END IF : Check for file
 } // END CONSTRUCTOR File
+
+File::~File() {
+	docIN.close();
+	docOUT.close();
+}
 
 /* METHOD: setTarget
  * DESCRIPTION: Sets the value for <target> using <fileLocation>, <fileName>, and <fileType>
@@ -138,4 +143,11 @@ void File::forward( string folder ) {
 
 	setTarget();
 } // END METHOD forward
-//------------------------------------------------------------------------------------------------------------
+
+/* METHOD: download
+ * DESCRIPTION: 
+ */
+
+// void File::insertLine(string content) {
+
+// } // END METHOD download
