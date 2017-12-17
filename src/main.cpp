@@ -13,12 +13,15 @@ using namespace std;
 
 int main( void )
 {
-	FileOperations a;
-	cout << "CWD: " << a.getCWD() << endl;
+	string astr;
+	cout << "File: ";
+	cin >> astr;
+	File a(astr);
+	cout << endl << "CWD: " << a.getCurrentDirectory() << endl;
+	cout << "Location: " << a.getDirectory() << endl;
+	cout << "Name: " << a.getName() << endl;
+	cout << "Type: " << a.getType() << endl << endl;
 	a.back();
-	cout << "TDIR: " << a.getTargetDirectory() << endl;
-	a.forward( "texFiles" );
-	cout << "TDIR: " << a.getTargetDirectory() << endl;
-	FileOperations b("/home/sowamy/Desktop");
-	cout << "TDIR: " << b.getTargetDirectory() << endl;
+	a.forward("src");
+	cout << "New Location: " << a.getDirectory() << endl;
 } // END FUNCTION main
