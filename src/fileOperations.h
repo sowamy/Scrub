@@ -3,8 +3,8 @@ class File {
 		string cwd;
 		string target;
 		string fileLocation;
-		string fileName = NULL;
-		string fileType = NULL;
+		string fileName;
+		string fileType;
 		ifstream docIN;
 		ofstream docOUT;
 	protected:
@@ -13,16 +13,16 @@ class File {
 	public:
 		File();
 		File(string custom);
-		~File() {};
+		~File();
 		void back();
 		void forward(string folder);
-		// void download(string contents);
+		void connect();
+		void downloadLine(string content){ docOUT << content << endl; }
 		// string upload();
 
 		string getCurrentDirectory(){return cwd;}
 		string getDirectory(){return fileLocation;}
 		string getName(){return fileName;}
 		string getType(){return fileType;}
-
 		// void setFile(string loc, string name);
 }; // END CLASS File

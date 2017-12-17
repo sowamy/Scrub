@@ -13,12 +13,13 @@ int main( void )
 	string astr;
 	cout << "File: ";
 	cin >> astr;
+	cin.ignore();
 	File a(astr);
-	cout << endl << "CWD: " << a.getCurrentDirectory() << endl;
-	cout << "Location: " << a.getDirectory() << endl;
-	cout << "Name: " << a.getName() << endl;
-	cout << "Type: " << a.getType() << endl << endl;
-	a.back();
-	a.forward("src");
-	cout << "New Location: " << a.getDirectory() << endl;
+	a.connect();
+	string raw;
+	while(raw != "end" ) {
+		cout << "Next Line: ";
+		getline(cin, raw);
+		a.downloadLine(raw);
+	}
 } // END FUNCTION main

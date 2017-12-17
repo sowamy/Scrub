@@ -36,14 +36,14 @@ class File {
 		~File();
 		void back();
 		void forward(string folder);
-		// void download(string contents);
+		void connect();
+		void downloadLine(string content){ docOUT << content << endl; }
 		// string upload();
 
 		string getCurrentDirectory(){return cwd;}
 		string getDirectory(){return fileLocation;}
 		string getName(){return fileName;}
 		string getType(){return fileType;}
-
 		// void setFile(string loc, string name);
 }; // END CLASS File
 
@@ -80,6 +80,8 @@ File::File(string custom) {
 	} else {
 		fileLocation = custom;
 	}// END IF : Check for file
+
+	setTarget();
 } // END CONSTRUCTOR File
 
 File::~File() {
@@ -144,10 +146,10 @@ void File::forward( string folder ) {
 	setTarget();
 } // END METHOD forward
 
-/* METHOD: download
- * DESCRIPTION: 
+/* METHOD: connect
+ * DESCRIPTION: Connect file pointers to the target file
  */
-
-// void File::insertLine(string content) {
-
-// } // END METHOD download
+void File::connect() {
+	docIN.open(target.c_str());
+	docOUT.open(target.c_str());
+} // END METHOD connect

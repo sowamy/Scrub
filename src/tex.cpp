@@ -1,6 +1,4 @@
 #include <iostream>
-#include <fstream>
-#include <string>
 #include <vector>
 
 using namespace std;
@@ -12,10 +10,6 @@ using namespace std;
 class TEX {
 	protected:
 		string title;
-		string fileName;
-		string fileLocation;
-		ifstream docIN;
-		ofstream docOUT;
 
 		// Parts of LaTeX document
 		string documentClass = "article";
@@ -26,7 +20,6 @@ class TEX {
 	public:
 		TEX(string documentName);
 		~TEX();
-		void createDocument();
 		void compile();
 
 		// Getters
@@ -61,36 +54,13 @@ TEX::TEX(string documentName) {
 	cout << "File Name: " << title << endl;
 
 	fileName = documentName;
-
-	docIN.open(fileName.c_str());
-	docOUT.open(fileName.c_str());
 } // END CONSTRUCTOR texDocument
 
-/* CLASS: texDocument
- * METHOD: ~texDocument
- * DESCRIPTION: General destructor of base class <texDocument>. Closes both the input and output files.
- */
-TEX::~TEX() {
-	docIN.close();
-	docOUT.close();
-} // END DESTRUCTOR ~texDocument
-
-/* CLASS: TEX
- * METHOD: Create .tex document
- */
-void TEX::createDocument() {
-	docOUT << "\\documentclass{" << documentClass << "}\n";
-	docOUT << bodyBEGIN << endl;
-	docOUT << text << endl;
-	docOUT << bodyEND << endl;
-} // END METHOD createDocument
-
-void TEX::compile(){
+void TEX::compile(string fileName, string directory){
 	string systemCall = "pdflatex ";
 	systemCall.append(fileName);
-
-	// TEST: View system call
-	cout << "System Call: " << systemCall << endl;
+	systemCall.append("output-directory=");
+	systemCall.append(directory);
 
 	system(systemCall.c_str());
 } // END METHOD compile
