@@ -1,3 +1,11 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <vector>
+#include <unistd.h>
+
+using namespace std;
+
 class File {
 	private:
 		string cwd;
@@ -18,11 +26,12 @@ class File {
 		void forward(string folder);
 		void connect();
 		void downloadLine(string content){ docOUT << content << endl; }
-		// string upload();
 
 		string getCurrentDirectory(){return cwd;}
 		string getDirectory(){return fileLocation;}
 		string getName(){return fileName;}
 		string getType(){return fileType;}
-		// void setFile(string loc, string name);
+		string getTarget();
+
+		void setDirectory(string custom);
 }; // END CLASS File

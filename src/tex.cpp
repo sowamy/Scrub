@@ -1,67 +1,152 @@
 #include <iostream>
+#include <fstream>
+#include <string>
 #include <vector>
+#include <unistd.h>
 
+#include "fileOperations.h"
+//------------------------------------------------------------------------------------------------------------
 using namespace std;
-
+//------------------------------------------------------------------------------------------------------------
 /* CLASS: texDocument
  * DESCRIPTION: A base class which contains all of the general information and functionality of
  *				a LaTeX document.
+ * VARIABLES:
+ * -- directory 		:= Stores the file location where the .tex file is, or is to be created
+ * -- outputDirectory 	:= Stores the file location where the .tex file is compiled, and the pdf document is 
+ 							created
+ * -- title				:= Title of the document
+ * -- bodyBEGIN 		:= String appended to <entireDocument> which begins the body of the document
+ * -- bodyEND			:= String appended to <entireDocument> which ends the body of the document
+ * -- entireDocument	:= Container of strings, used to store and traverse the entire .tex document during
+ 							editing (before the document is compiled)
  */
 class TEX {
-	protected:
-		string title;
+	private:
+		// Document location
+		File* fileLocation;
+		File* fileSaveLocation;
 
 		// Parts of LaTeX document
-		string documentClass = "article";
-		vector<string> packages;
-		string text;
+		string title;
 		string bodyBEGIN = "\\begin{document}";
 		string bodyEND = "\\end{document}";
+
+		// Document control and indexing
+		vector<string> entireDocument;
+
 	public:
-		TEX(string documentName);
-		~TEX();
+		TEX(string docClass, string direct);
+		TEX(string docClass, string direct, string outputDirect);
+		~TEX() {};
+		void beginBody() { entireDocument.push_back(bodyBEGIN); }
+		void endBody() { entireDocument.push_back(bodyEND); }
+		void newSection(string title);
+		void newSubSection(string title);
+		void newLine() { entireDocument.push_back("\n"); }
+		void makeTexFile() { for(int i = 0; i < entireDocument.size(); i++) { fileLocation->downloadLine(entireDocument[i]); } }
 		void compile();
+		void pushLine(string line) { entireDocument.push_back(line); }
+}; // END CLASS TEX
 
-		// Getters
-		string getTitle() {return title;}
-		string getDocClass(void) {return documentClass;}
-
-		// Setters
-		void setDocClass(string dc) {documentClass = dc;}
-		void setText(string t) {text = t;}
-}; // END CLASS texDocument
-
-/* CLASS: texDocument
- * DESCRIPTION: Default constructor. Takes in the document name, parses the file location and opens the file
- 				for editing.
+/* METHOD: Constructor
+ * DESCRIPTION: 
+ * -- Gets where the document is, and is to be compiled. 
+ * -- Sets the documentClass and adds it to <entireDocument>
  */
-TEX::TEX(string documentName) {
-	size_t fileExtDot = documentName.find_last_of('.');
-	size_t fileLocDot = documentName.find_last_of('/');
+TEX::TEX(string docClass, string direct) {
+	string writer = "\\documentclass{";
+	writer.append(docClass);
+	writer.append("}");
 
-	// Get title from <fileName> and ensure that the string ends with .tex
-	if( documentName.substr(fileExtDot+1) != "tex" ) {
-		title = documentName.substr(fileLocDot+1);
-		documentName.append(".tex");
-	} else {
-		title = documentName.substr(fileLocDot+1, fileExtDot);
-	} // END if...else
+	entireDocument.push_back(writer);
 
-	fileLocation = documentName.substr(0, fileLocDot);
+	fileLocation = new File(direct);
+	fileSaveLocation = new File(direct);
 
-	// TEST: Print File Location
-	cout << "File Location: " << fileLocation << endl;
-	cout << "File Name: " << title << endl;
+	// TODO: Ensure that the target file is of type .tex
+	// TODO: Ensure that the folder given is valid
 
-	fileName = documentName;
-} // END CONSTRUCTOR texDocument
+	fileLocation->connect();
+	fileSaveLocation->connect();
 
-void TEX::compile(string fileName, string directory){
+} // END CONSTRUCTOR TEX
+
+/* METHOD: Constructor
+ * DESCRIPTION:
+ * -- Gets where the .tex document is to be created
+ * -- Sets where the .tex document is to be compiled and the .pdf file is to be created
+ * -- Sets the documentClass and adds it to <entireDocument>
+ */
+TEX::TEX(string docClass, string direct, string outputDirect) {
+	string writer = "\\documentclass{";
+	writer.append(docClass);
+	writer.append("}");
+
+	entireDocument.push_back(writer);
+
+	fileLocation = new File(direct);
+	fileSaveLocation = new File(outputDirect);
+	
+	// TODO: Ensure that the target file is of type .tex
+	// TODO: Ensure that the folder given is valid
+
+	fileLocation->connect();
+	fileSaveLocation->connect();
+
+} // END CONSTRUCTOR TEX
+
+/* METHOD: newSection
+ * DESCRIPTION:
+ * -- Creates a new section in the .tex document
+ */
+void TEX::newSection(string title) {
+	string writer = "\\section{";
+	writer.append(title);
+	writer.append("}");
+
+	entireDocument.push_back(writer);
+} // END METHOD newSection
+
+/* METHOD: newSubSection
+ * DESCRIPTION:
+ * -- Creates a new subsection in the .tex document
+ */
+void TEX::newSubSection(string title) {
+	string writer = "\\subsection{";
+	writer.append(title);
+	writer.append("}");
+
+	entireDocument.push_back(writer);
+} // END METHOD newSubSection
+
+/* METHOD: compile
+ * DESCRIPTION:
+ * -- Compiles a .tex document into a .pdf document
+ */
+void TEX::compile() {
 	string systemCall = "pdflatex ";
-	systemCall.append(fileName);
-	systemCall.append("output-directory=");
-	systemCall.append(directory);
+	systemCall.append(fileLocation->getTarget());
+	systemCall.append(" output-directory=");
+	systemCall.append(fileSaveLocation->getTarget());
 
+	system(systemCall.c_str());
+
+	// Removes all extra files from where code is ran (src).
+	// TODO: Replace rm (remove) with mv (move), and move supplementary files to default/custom location
+	systemCall = "rm ";
+	systemCall.append(fileLocation->getName());
+	systemCall.append(".pdf");
+	system(systemCall.c_str());
+
+	systemCall = "rm ";
+	systemCall.append(fileLocation->getName());
+	systemCall.append(".aux");
+	system(systemCall.c_str());
+
+	systemCall = "rm ";
+	systemCall.append(fileLocation->getName());
+	systemCall.append(".log");
 	system(systemCall.c_str());
 } // END METHOD compile
 //------------------------------------------------------------------------------------------------------------

@@ -38,13 +38,12 @@ class File {
 		void forward(string folder);
 		void connect();
 		void downloadLine(string content){ docOUT << content << endl; }
-		// string upload();
 
 		string getCurrentDirectory(){return cwd;}
 		string getDirectory(){return fileLocation;}
 		string getName(){return fileName;}
 		string getType(){return fileType;}
-		// void setFile(string loc, string name);
+		string getTarget();
 }; // END CLASS File
 
 /* CONSTRUCTOR: File
@@ -81,7 +80,6 @@ File::File(string custom) {
 		fileLocation = custom;
 	}// END IF : Check for file
 
-	setTarget();
 } // END CONSTRUCTOR File
 
 File::~File() {
@@ -119,8 +117,15 @@ void File::setTarget(string location, string name, string type){
 
 	fileType = type;
 
-	setTarget();
 } // END METHOD setTarget
+
+/* METHOD: getTarget
+ * DESCRIPTION: Gets the <target>, which contains the directory, file, and extension together in one string
+ */
+string File::getTarget() {
+	setTarget();
+	return target;
+} // END METHOD getTarget
 
 /* METHOD: back
  * DESCRIPTION: Moves the target directory back a folder
@@ -129,7 +134,6 @@ void File::setTarget(string location, string name, string type){
 void File::back() {
 	size_t fileLoc = fileLocation.find_last_of('/');
 	fileLocation = fileLocation.substr(0, fileLoc);
-	setTarget();
 } // END METHOD back
 
 /* METHOD: forward
@@ -143,13 +147,13 @@ void File::forward( string folder ) {
 		fileLocation.append(folder);
 	} // END IF : Ensures there is a / between folders
 
-	setTarget();
 } // END METHOD forward
 
 /* METHOD: connect
  * DESCRIPTION: Connect file pointers to the target file
  */
 void File::connect() {
+	setTarget();
 	docIN.open(target.c_str());
 	docOUT.open(target.c_str());
 } // END METHOD connect
