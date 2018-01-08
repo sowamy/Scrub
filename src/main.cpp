@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "tex.h"
+#include "extract.h"
 
 #define MAX_FILE_SIZE 100
 
