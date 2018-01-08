@@ -86,7 +86,7 @@ TEX::TEX(string docClass, string direct, string outputDirect) {
 	entireDocument.push_back(writer);
 
 	fileLocation = new File(direct);
-	fileSaveLocation = new File(outputDirect, fileLocation->getName(), "pdf");
+	fileSaveLocation = new File(outputDirect);
 	
 	// TODO: Ensure that the target file is of type .tex
 	// TODO: Ensure that the folder given is valid
