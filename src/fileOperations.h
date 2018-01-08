@@ -21,6 +21,7 @@ class File {
 	public:
 		File();
 		File(string custom);
+		File(string loc, string n, string t){ setTarget(loc, n, t); }
 		~File();
 		void back();
 		void forward(string folder);

@@ -86,7 +86,7 @@ TEX::TEX(string docClass, string direct, string outputDirect) {
 	entireDocument.push_back(writer);
 
 	fileLocation = new File(direct);
-	fileSaveLocation = new File(outputDirect);
+	fileSaveLocation = new File(outputDirect, fileLocation->getName(), "pdf");
 	
 	// TODO: Ensure that the target file is of type .tex
 	// TODO: Ensure that the folder given is valid
@@ -126,27 +126,10 @@ void TEX::newSubSection(string title) {
  */
 void TEX::compile() {
 	string systemCall = "pdflatex ";
+	systemCall.append("-output-directory=");
+	systemCall.append(fileSaveLocation->getDirectory());
+	systemCall.append(" ");
 	systemCall.append(fileLocation->getTarget());
-	systemCall.append(" output-directory=");
-	systemCall.append(fileSaveLocation->getTarget());
-
-	system(systemCall.c_str());
-
-	// Removes all extra files from where code is ran (src).
-	// TODO: Replace rm (remove) with mv (move), and move supplementary files to default/custom location
-	systemCall = "rm ";
-	systemCall.append(fileLocation->getName());
-	systemCall.append(".pdf");
-	system(systemCall.c_str());
-
-	systemCall = "rm ";
-	systemCall.append(fileLocation->getName());
-	systemCall.append(".aux");
-	system(systemCall.c_str());
-
-	systemCall = "rm ";
-	systemCall.append(fileLocation->getName());
-	systemCall.append(".log");
 	system(systemCall.c_str());
 } // END METHOD compile
 //------------------------------------------------------------------------------------------------------------
