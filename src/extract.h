@@ -35,7 +35,10 @@ typedef Clas *ClassPtr;
  * DESCRIPTION: Stores all the attributes and comments from a script in a tree
  */
 class CoreScript {
-
+	private:
+		
+	public:
+		CoreScript() {};
 }; // END CLASS CoreScript
 //------------------------------------------------------------------------------------------------------------
 /* CLASS: C_Script

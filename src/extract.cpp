@@ -1,6 +1,8 @@
 #include <string>
 #include <vector>
 
+#include "fileOperations.h"
+
 using namespace std;
 //------------------------------------------------------------------------------------------------------------
 struct variable{
@@ -25,7 +27,7 @@ struct clas{
 	string name;
 	string description;
 	vector<FunctionPtr> constructors;
-	vector<FunctionPtr> functions;
+	vector<FunctionPtr> methods;
 	FunctionPtr destructor;
 };
 typedef struct clas Clas;
@@ -35,7 +37,43 @@ typedef Clas *ClassPtr;
  * DESCRIPTION: Stores all the attributes and comments from a script in a tree
  */
 class CoreScript {
+	private:
+		vector<ClassPtr> classes;
+		vector<FunctionPtr> functions;
+		vector<VariablePtr> variables;
 
+		int classIndex = 0;
+		int methodIndex = 0;
+		int functionIndex = 0;
+	protected:
+		File* scriptSource;		
+	public:
+		CoreScript() {};
+
+		void pushClass(ClassPtr newClass){ classes.push_back(newClass); }
+		// void pushClass(string name, string description);
+
+		void pushFunction(FunctionPtr newFunction){ functions.push_back(newFunction); }
+		// void pushFunction(string functionName, string functionDescription);
+
+		// int pushMethod(string className, FunctionPtr newMethod);
+		// int pushMethod(string className, string functionName, string functionDescription);
+
+		// ClassPtr popClass();
+		// FunctionPtr popFunction();
+
+		// string getClassTitle();
+		// string getClassDescription();
+
+		// string getFunctionTitle();
+		// string getFunctionDescription();
+
+		// string getMethodTitle(string class);
+		// string getMethodDescription(string class);
+		
+		// int nextClass();
+		// int nextFunction();
+		// int nextMethod(string class);
 }; // END CLASS CoreScript
 //------------------------------------------------------------------------------------------------------------
 /* CLASS: C_Script
@@ -43,11 +81,15 @@ class CoreScript {
  */
 class C_Script : public CoreScript{
 	private:
-		string fileLocation;
 	public:
-		C_Script(string location){ fileLocation=location; }
+		C_Script(string location);
 		~C_Script() {};
 }; // END CLASS C_Script
+
+C_Script::C_Script(string location) {
+	scriptSource = new File(location);
+	scriptSource->connect();
+}
 //------------------------------------------------------------------------------------------------------------
 /* CLASS: Cpp_Script
  * DESCRIPTION: Extracts comments and functionality from a c++ file.
