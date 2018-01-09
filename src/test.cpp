@@ -3,37 +3,10 @@
  * DESCRIPTION: Contains functionality which tests each of the core modules and classes in the Scrub program
  */
 //------------------------------------------------------------------------------------------------------------
-#include <iostream>
-#include <vector>
-
 #include "user_IO.h"
 #include "tex.h"
 
 using namespace std;
-//------------------------------------------------------------------------------------------------------------
-// Class Prototypes
-class Test;
-class File_Test;
-//------------------------------------------------------------------------------------------------------------
-/* CLASS: TerminalView
- * DESCRIPTION: 
- * -- Class which contains functionality to test various modules of the Scrub program using terminal
- *		interactions. Allows the user to dynamically interact and test the functionality of Scrub during 
- *		runtime.
- */
-class TerminalView {
-	private:
-	public:
-		TerminalView();
-}; // END CLASS TerminalView
-
-/* CONSTRUCTOR: TerminalView
- * DESCRIPTION:
- * -- Displays the main (starting) menu
- */
-TerminalView::TerminalView() {
-	int menuChoice = userInput.get_integer(1, 5, prompt.mainMenu);
-} // END CONSTRUCTOR TerminalView
 //------------------------------------------------------------------------------------------------------------
 /* CLASS: Test
  * DESCRIPTION:
@@ -76,7 +49,7 @@ class File_Test : public Test {
  * -- 
  */
 File_Test::File_Test() {
-
+	cout << "File_Test Initiated" << endl;
 } // END CONSTRUCTOR File_Test
 //------------------------------------------------------------------------------------------------------------
 /* CLASS: TEX_Test

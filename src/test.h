@@ -3,11 +3,7 @@
 
 #include "tex.h"
 
-class TerminalView {
-	private:
-	public:
-		TerminalView();
-}; // END CLASS TerminalView
+class TerminalView;
 
 class Test {
 	protected:

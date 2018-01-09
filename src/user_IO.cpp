@@ -17,10 +17,6 @@ using namespace std;
  *		targeted communication between the program and the user during runtime.
  */
 struct promptMessages {
-	// Menu Prompts
-	string mainMenu = "MAIN MENU (ENTER VALUE OF MODULE TO TEST AND PRESS ENTER):\n1. TEST\n2. FILE OPERATIONS"
-						"\n3. TEX\n4. IEEE FORMAT\n5. SCRIPT EXTRACTION";
-	
 	// Error Handling Messages (Soft Errors)
 	string soft_input = "INVALID INPUT";
 	string soft_above = "INPUT IS ABOVE ACCEPTABLE VALUE";
