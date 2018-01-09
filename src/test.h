@@ -1,22 +1,29 @@
 #include <iostream>
 #include <vector>
 
-#include "tex.h"
+#include "user_IO.h"
 
-class TerminalView;
+#include "tex.h"
 
 class Test {
 	protected:
 		File* cwd;
 		File* testing_folder;
-		TerminalView* tv;
 	public:
 		Test();
-		void runInTerminal(){ tv = new TerminalView; }
-}; // END CLASS TEST
+		~Test(){};
+}; 
 
 class File_Test : public Test {
 	private:
 	public:
 		File_Test();
-}; // END CLASS File_Test
+}; 
+
+class TerminalView : public Test {
+	private:
+		int menuChoice;
+	public:
+		TerminalView();
+		~TerminalView(){};
+};

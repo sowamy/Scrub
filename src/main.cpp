@@ -8,8 +8,7 @@ using namespace std;
 
 int main( int argc, char *argv[] )
 {
-	Test t;
-	t.runInTerminal();
+	TerminalView t;
 
 	return 0;
 } // END FUNCTION main
