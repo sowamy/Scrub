@@ -79,7 +79,7 @@ string Input::get_string() {
 		cout << prompt.error_input;
 		cout << endl << prompt.try_again;
 
-		cont = get_string(maxLength);
+		cont = get_string();
 
 		if( cont == "yes" ) {
 			return RESTART;
@@ -185,7 +185,7 @@ int Input::get_integer() {
 		cont = get_string(3);
 
 		if( cont == "yes" ) {
-			newValue = get_integer(min, max);
+			newValue = get_integer();
 		} else {
 			throw domain_error(EXIT);
 		}
