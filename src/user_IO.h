@@ -11,8 +11,15 @@ using namespace std;
 
 extern struct promptMessages {
 	// Menu Prompts
-	string mainMenu = "MAIN MENU (ENTER VALUE OF MODULE TO TEST AND PRESS ENTER):\n1. TEST\n2. FILE OPERATIONS"
+	string test_mainMenu = "MAIN MENU (ENTER VALUE OF MODULE TO TEST AND PRESS ENTER):\n1. TEST\n2. FILE OPERATIONS"
 						"\n3. TEX\n4. IEEE FORMAT\n5. SCRIPT EXTRACTION";
+	string test_testMenu = "TEST MENU (ENTER VALUE OF FUNCTION TO TEST AND PRESS ENTER):\n1. USER INPUT"
+						"\n8. BACK\n9. EXIT";
+
+	// SubMenu Prompts
+	string sub_test_input = "USER INPUT (ENTER VALUE OF FUNCTION TO TEST AND PRESS ENTER): \n1. GET STRING (BASIC)"
+						"\n2. GET STRING (PROMPT)\n3. GET INTEGER (BASIC)\n4. GET INTEGER (PROMPT)"
+						"\n5. GET FLOAT (BASIC)\n6. GET FLOAT (PROMPT)\n8. BACK\n9. EXIT";
 
 
 	// Error Handling Messages (Soft Errors)

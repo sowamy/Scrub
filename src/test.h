@@ -2,8 +2,9 @@
 #include <vector>
 
 #include "user_IO.h"
-
 #include "tex.h"
+
+#define CLEARSCREEN system("clear")
 
 class Test {
 	protected:
@@ -22,8 +23,15 @@ class File_Test : public Test {
 
 class TerminalView : public Test {
 	private:
+		int on = 0;
 		int menuChoice;
 	public:
 		TerminalView();
 		~TerminalView(){};
+
+		int test_Test();
+		// int test_FileOperations();
+		// int test_TEX();
+		// int test_IEEE();
+		// int test_Extract();
 };

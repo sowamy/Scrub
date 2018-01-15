@@ -6,6 +6,8 @@
 #include "user_IO.h"
 #include "tex.h"
 
+#define CLEARSCREEN system("clear")
+
 using namespace std;
 //------------------------------------------------------------------------------------------------------------
 /* CLASS: Test
@@ -74,10 +76,17 @@ File_Test::File_Test() {
  */
 class TerminalView : public Test {
 	private:
+		int on = 1;
 		int menuChoice;
 	public:
 		TerminalView();
 		~TerminalView(){};
+
+		int test_Test();
+		// int test_FileOperations();
+		// int test_TEX();
+		// int test_IEEE();
+		// int test_Extract();
 }; // END CLASS TerminalView
 
 /* CONSTRUCTOR: TerminalView
@@ -88,28 +97,101 @@ TerminalView::TerminalView() {
 	// TEST: Prints if and when a TerminalView object is created
 	// cout << "TerminalView Object created" << endl;
 
-	menuChoice = userInput.get_integer(1, 5, prompt.mainMenu);
+	
+	while(on) {
 
-	switch(menuChoice) {
-		case 1:
-			cout << "1 Chosen" << endl;
-			break;
-		case 2:
-			cout << "2 Chosen" << endl;
-			break;
-		case 3:
-			cout << "3 Chosen" << endl;
-			break;
-		case 4:
-			cout << "4 Chosen" << endl;
-			break;
-		case 5:
-			cout << "5 Chosen" << endl;
-			break;
-		default:
-			cout << prompt.error_general << endl;
-			break;
-	}; // END SWITCH : Main menu choice
+		CLEARSCREEN;
+		
+		menuChoice = userInput.get_integer(1, 9, prompt.test_mainMenu);
+		
+		switch(menuChoice) {
+			case 1: // Test module itself
+				on = test_Test();
+				break;
+			case 2: // File Operations module
+				cout << "2 Chosen" << endl;
+				break;
+			case 3: // TEX module
+				cout << "3 Chosen" << endl;
+				break;
+			case 4: // IEEE Formation module
+				cout << "4 Chosen" << endl;
+				break;
+			case 5: // Script Extraction module
+				cout << "5 Chosen" << endl;
+				break;
+			case 9: // Exit
+				on = 0;
+				break;
+			default:
+				cout << prompt.error_general << endl;
+				break;
+		}; // END SWITCH : Main menu choice
+	} // END WHILE : Main loop
 
 } // END CONSTRUCTOR TerminalView
+
+/* METHOD: test_Test
+ * DESCRIPTION: Tests the test module, and the general functionality within Scrub
+ */
+int TerminalView::test_Test() {
+	int test_on = 1;
+	int userInput_on = 1;
+
+	
+	while(test_on) {
+
+		CLEARSCREEN;
+
+		menuChoice = userInput.get_integer(1, 9, prompt.test_testMenu);
+		
+		switch(menuChoice) {
+			case 1: // Test user input
+
+				while(userInput_on) {
+					CLEARSCREEN;
+
+					menuChoice = userInput.get_integer(1, 9, prompt.sub_test_input);
+
+					switch(menuChoice){
+						case 1: // Test get string (basic)
+							cout << "1" << endl;
+							break;
+						case 2: // Test get string (prompt)
+							cout << "2" << endl;
+							break;
+						case 3: // Test get integer (basic)
+							cout << "3" << endl;
+							break;
+						case 4: // Test get integer (prompt)
+							cout << "4" << endl;
+							break;
+						case 5: // Test get float (basic)
+							cout << "5" << endl;
+							break;
+						case 6: // Test get float (prompt)
+							cout << "6" << endl;
+							break;
+						case 8: // Back
+							userInput_on = 0;
+							break;
+						case 9: // Exit
+							return 0;
+						default:
+							cout << prompt.error_general << endl;
+							break;
+					}; // END SWITCH : Test user input
+				} // END WHILE : User Input test loop
+
+				break;
+			case 8:
+				return 1;
+			case 9:
+				return 0;
+			default:
+				cout << prompt.error_general << endl;
+				break;
+		}; // END SWITCH : Test menu choice
+	} // END WHILE : Test loop
+}
 //------------------------------------------------------------------------------------------------------------
