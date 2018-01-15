@@ -97,10 +97,9 @@ TerminalView::TerminalView() {
 	// TEST: Prints if and when a TerminalView object is created
 	// cout << "TerminalView Object created" << endl;
 
+	CLEARSCREEN;
 	
-	while(on) {
-
-		CLEARSCREEN;
+	while(on) {		
 		
 		menuChoice = userInput.get_integer(1, 9, prompt.test_mainMenu);
 		
@@ -127,6 +126,9 @@ TerminalView::TerminalView() {
 				cout << prompt.error_general << endl;
 				break;
 		}; // END SWITCH : Main menu choice
+
+		CLEARSCREEN;
+
 	} // END WHILE : Main loop
 
 } // END CONSTRUCTOR TerminalView
@@ -138,41 +140,48 @@ int TerminalView::test_Test() {
 	int test_on = 1;
 	int userInput_on = 1;
 
-	
-	while(test_on) {
+	CLEARSCREEN;
 
-		CLEARSCREEN;
+	while(test_on) {
 
 		menuChoice = userInput.get_integer(1, 9, prompt.test_testMenu);
 		
 		switch(menuChoice) {
 			case 1: // Test user input
 
+				CLEARSCREEN;
+
 				while(userInput_on) {
-					CLEARSCREEN;
 
 					menuChoice = userInput.get_integer(1, 9, prompt.sub_test_input);
 
 					switch(menuChoice){
 						case 1: // Test get string (basic)
+							CLEARSCREEN;
 							cout << "1" << endl;
 							break;
 						case 2: // Test get string (prompt)
+							CLEARSCREEN;
 							cout << "2" << endl;
 							break;
 						case 3: // Test get integer (basic)
+							CLEARSCREEN;
 							cout << "3" << endl;
 							break;
 						case 4: // Test get integer (prompt)
+							CLEARSCREEN;
 							cout << "4" << endl;
 							break;
 						case 5: // Test get float (basic)
+							CLEARSCREEN;
 							cout << "5" << endl;
 							break;
 						case 6: // Test get float (prompt)
+							CLEARSCREEN;
 							cout << "6" << endl;
 							break;
 						case 8: // Back
+							CLEARSCREEN;
 							userInput_on = 0;
 							break;
 						case 9: // Exit

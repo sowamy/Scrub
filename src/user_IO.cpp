@@ -50,14 +50,47 @@ class Input {
 	public:
 		Input() {};
 		~Input() {};
+		string get_string();
 		string get_string(int maxLength);
 		string get_string(int maxLength, string prompt);
+		int get_integer();
 		int get_integer(int min, int max);
 		int get_integer(int min, int max, string prompt);
+		float get_float();
 		float get_float(float min, float max);
 		float get_float(float min, float max, string prompt);
-
 }userInput; // END CLASS Input
+
+/* CLASS: Input
+ * METHOD: getString
+ * DESCRIPTION: Gets valid string from user. No length protection.
+ */
+string Input::get_string() {
+	string raw;
+	cout << "\n--> ";
+
+	try {
+		getline(cin,raw);
+		if( raw == "exit" )
+			return EXIT;
+	} catch(...) {
+		string cont;
+
+		cout << prompt.error_input;
+		cout << endl << prompt.try_again;
+
+		cont = get_string(maxLength);
+
+		if( cont == "yes" ) {
+			return RESTART;
+		} else {
+			return EXIT;
+		}
+	}// END try...catch
+
+	return raw;
+} // END METHOD getString
+
 
 /* CLASS: Input
  * METHOD: getString
@@ -68,7 +101,7 @@ class Input {
  */
 string Input::get_string(int maxLength) {
 	string raw;
-	cout << INPUT_PROMPT;
+	cout << "\n--> ";
 
 	try {
 		getline(cin,raw);
@@ -121,11 +154,45 @@ string Input::get_string(int maxLength, string prompt) {
 			raw = get_string(maxLength, prompt);
 		}
 	} catch (...) {
-		cout << "ERROR";
+		cout << "ERROR: General";
 	} // END try...catch
 
 	return raw;
 } // END METHOD get_string
+
+/* CLASS: Input
+ * METHOD: get_integer
+ * DESCRIPTION: Gets a valid integer value from the user returns -1 if invalid input
+ */
+int Input::get_integer() {
+	string raw;
+	int newValue;
+	cout << "\n--> ";
+
+	try {
+		getline(cin,raw);
+		try {
+			newValue = stoi(raw);
+		} catch (...) {
+			cout << prompt.error_input << endl;
+		}
+	} catch(...) {
+		string cont;
+
+		cout << prompt.soft_input;
+		cout << endl << prompt.try_again;
+
+		cont = get_string(3);
+
+		if( cont == "yes" ) {
+			newValue = get_integer(min, max);
+		} else {
+			throw domain_error(EXIT);
+		}
+	}// END try...catch
+
+	return newValue;
+} // END METHOD getInteger
 
 /* CLASS: Input
  * METHOD: get_integer
@@ -135,7 +202,7 @@ string Input::get_string(int maxLength, string prompt) {
 int Input::get_integer(int min, int max) {
 	string raw;
 	int newValue;
-	cout << INPUT_PROMPT;
+	cout << "\n--> ";
 
 	try {
 		getline(cin,raw);
@@ -145,9 +212,9 @@ int Input::get_integer(int min, int max) {
 			cout << prompt.error_input << endl;
 		}
 		if(newValue > max)
-			throw out_of_range(prompt.soft_above);
+			throw out_of_range("Input is above acceptable value");
 		if(newValue < min)
-			throw out_of_range(prompt.soft_below);
+			throw out_of_range("Input is below acceptable value");
 	} catch (out_of_range x) {
 		string cont;
 
@@ -194,11 +261,47 @@ int Input::get_integer(int min, int max, string prompt) {
 	} catch (invalid_argument x) {
 		raw = get_integer(min, max, prompt);
 	} catch (...) {
-		cout << "ERROR";
+
+		cout << "ERROR: General";
 	} // END try...catch
 
 	return raw;
 } // END METHOD get_integer
+
+/* CLASS: Input
+ * METHOD: get_float
+ * DESCRIPTION: Gets a valid float value from the user returns -1 if invalid input
+ */
+float Input::get_float() {
+	string raw;
+	float newValue;
+	cout << "\n--> ";
+
+	try {
+		getline(cin,raw);
+		try {
+			newValue = stof(raw);
+		} catch (...) {
+			cout << prompt.error_input << endl;
+			throw invalid_argument(RESTART);
+		}
+	} catch(...) {
+		string cont;
+
+		cout << prompt.soft_input;
+		cout << endl << prompt.try_again;
+
+		cont = get_string(3);
+
+		if( cont == "yes" ) {
+			throw invalid_argument(RESTART);
+		} else {
+			throw domain_error(EXIT);
+		}
+	}// END try...catch
+
+	return newValue;
+} // END METHOD get_float
 
 /* CLASS: Input
  * METHOD: get_float
@@ -208,7 +311,7 @@ int Input::get_integer(int min, int max, string prompt) {
 float Input::get_float(float min, float max) {
 	string raw;
 	float newValue;
-	cout << INPUT_PROMPT;
+	cout << "\n--> ";
 
 	try {
 		getline(cin,raw);
@@ -219,9 +322,9 @@ float Input::get_float(float min, float max) {
 			throw invalid_argument(RESTART);
 		}
 		if(newValue > max)
-			throw out_of_range(prompt.soft_above);
+			throw out_of_range("Input is above acceptable value");
 		if(newValue < min)
-			throw out_of_range(prompt.soft_below);
+			throw out_of_range("Input is below acceptable value");
 	} catch (out_of_range x) {
 		string cont;
 
@@ -268,7 +371,7 @@ float Input::get_float(float min, float max, string prompt) {
 	} catch (invalid_argument x) {
 		raw = get_float(min, max, prompt);
 	} catch (...) {
-		cout << "ERROR";
+		cout << "ERROR: General";
 	} // END try...catch
 
 	return raw;
