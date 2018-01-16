@@ -53,7 +53,6 @@ class File_Test : public Test {
  * -- 
  */
 File_Test::File_Test() {
-	cout << "File_Test Initiated" << endl;
 } // END CONSTRUCTOR File_Test
 //------------------------------------------------------------------------------------------------------------
 /* CLASS: TEX_Test
@@ -83,10 +82,12 @@ class TerminalView : public Test {
 		~TerminalView(){};
 
 		int test_Test();
-		// int test_FileOperations();
+		int test_FileOperations();
 		// int test_TEX();
 		// int test_IEEE();
 		// int test_Extract();
+
+		void printStats_FileOperations(File* testFile);
 }; // END CLASS TerminalView
 
 /* CONSTRUCTOR: TerminalView
@@ -108,7 +109,7 @@ TerminalView::TerminalView() {
 				on = test_Test();
 				break;
 			case 2: // File Operations module
-				cout << "2 Chosen" << endl;
+				on = test_FileOperations();
 				break;
 			case 3: // TEX module
 				cout << "3 Chosen" << endl;
@@ -139,6 +140,18 @@ TerminalView::TerminalView() {
 int TerminalView::test_Test() {
 	int test_on = 1;
 	int userInput_on = 1;
+	
+	int min;
+	int max;
+
+	float minF;
+	float maxF;
+
+	string testPrompt;
+
+	int testInt;
+	float testFloat;
+	string testString;
 
 	CLEARSCREEN;
 
@@ -156,29 +169,106 @@ int TerminalView::test_Test() {
 					menuChoice = userInput.get_integer(1, 9, prompt.sub_test_input);
 
 					switch(menuChoice){
-						case 1: // Test get string (basic)
+						case 1: // Test get string 
 							CLEARSCREEN;
-							cout << "1" << endl;
+
+							menuChoice = userInput.get_integer(1, 3, prompt.sub_test_userInput);
+							CLEARSCREEN;
+
+							switch(menuChoice){
+								case 1: // Basic input		
+									cout << "ENTER STRING: ";
+									testString = userInput.get_string();
+									cout << "STRING: " << testString << endl;;
+									break;
+								case 2: // Default input
+									cout << "MAX NUMBER OF CHARACTERS: ";
+									max = userInput.get_integer();
+									cout << "ENTER STRING: ";
+									testString = userInput.get_string(max);
+									cout << "STRING: " << testString << endl;
+									break;
+								case 3: // Prompted input
+									cout << "MAX NUMBER OF CHARACTERS: ";
+									max = userInput.get_integer();
+									cout << "PROMPT: ";
+									testPrompt = userInput.get_string();
+									testString = userInput.get_string(max, testPrompt);
+									cout << "STRING: " << testString << endl;
+									break;
+								default:
+									cout << "ERROR TRY AGAIN" << endl;
+							} // END SWITCH : Type of string input
 							break;
-						case 2: // Test get string (prompt)
+						case 2: // Test get integer
 							CLEARSCREEN;
-							cout << "2" << endl;
+							
+							menuChoice = userInput.get_integer(1, 3, prompt.sub_test_userInput);
+							CLEARSCREEN;
+
+							switch(menuChoice){
+								case 1: // Basic input		
+									cout << "ENTER INTEGER: ";
+									testInt = userInput.get_integer();
+									cout << "INTEGER: " << testInt << endl;;
+									break;
+								case 2: // Default input
+									cout << "MIN VALUE OF INTEGER: ";
+									min = userInput.get_integer();
+									cout << "MAX VALUE OF INTEGER: ";
+									max = userInput.get_integer();
+									cout << "ENTER INTEGER: ";
+									testInt = userInput.get_integer(min, max);
+									cout << "INTEGER: " << testInt << endl;
+									break;
+								case 3: // Prompted input
+									cout << "MIN VALUE OF INTEGER: ";
+									min = userInput.get_integer();
+									cout << "MAX VALUE OF INTEGER: ";
+									max = userInput.get_integer();
+									cout << "PROMPT: ";
+									testPrompt = userInput.get_string();
+									testInt = userInput.get_integer(min, max, testPrompt);
+									cout << "INTEGER: " << testInt << endl;
+									break;
+								default:
+									cout << "ERROR TRY AGAIN" << endl;
+							} // END SWITCH : Type of string input
 							break;
-						case 3: // Test get integer (basic)
+						case 3: // Test get float
 							CLEARSCREEN;
-							cout << "3" << endl;
-							break;
-						case 4: // Test get integer (prompt)
+
+							menuChoice = userInput.get_integer(1, 3, prompt.sub_test_userInput);
 							CLEARSCREEN;
-							cout << "4" << endl;
-							break;
-						case 5: // Test get float (basic)
-							CLEARSCREEN;
-							cout << "5" << endl;
-							break;
-						case 6: // Test get float (prompt)
-							CLEARSCREEN;
-							cout << "6" << endl;
+
+							switch(menuChoice){
+								case 1: // Basic input		
+									cout << "ENTER FLOAT: ";
+									testFloat = userInput.get_float();
+									cout << "FLOAT: " << testFloat << endl;;
+									break;
+								case 2: // Default input
+									cout << "MIN VALUE OF FLOAT: ";
+									minF = userInput.get_float();
+									cout << "MAX VALUE OF FLOAT: ";
+									maxF = userInput.get_float();
+									cout << "ENTER FLOAT: ";
+									testFloat = userInput.get_float(min, max);
+									cout << "FLOAT: " << testFloat << endl;
+									break;
+								case 3: // Prompted input
+									cout << "MIN VALUE OF FLOAT: ";
+									minF = userInput.get_float();
+									cout << "MAX VALUE OF FLOAT: ";
+									maxF = userInput.get_float();
+									cout << "PROMPT: ";
+									testPrompt = userInput.get_string();
+									testFloat = userInput.get_float(minF, maxF, testPrompt);
+									cout << "FLOAT: " << testFloat << endl;
+									break;
+								default:
+									cout << "ERROR TRY AGAIN" << endl;
+							} // END SWITCH : Type of string input
 							break;
 						case 8: // Back
 							CLEARSCREEN;
@@ -202,5 +292,88 @@ int TerminalView::test_Test() {
 				break;
 		}; // END SWITCH : Test menu choice
 	} // END WHILE : Test loop
-}
+} // END METHOD test_Test
+
+/* METHOD: test_FileOperations
+ * DESCRIPTION: Offers a way for the user to interact with the file operations test module through the terminal
+ */
+int TerminalView::test_FileOperations() {
+	int on = 1;
+
+	File* testFile;
+
+	// File initialization selection
+	while(on) {
+		CLEARSCREEN;
+
+		string customFile;
+		string location;
+		string name;
+		string type;
+
+		menuChoice = userInput.get_integer(1, 9, prompt.test_fileOperationsMenu);
+
+		switch(menuChoice) {
+			case 1: // Default file initialization
+				testFile = new File();
+				on = 0;
+				break;
+			case 2: // Custom file initialization
+				CLEARSCREEN;
+				cout << "FILE: ";
+				customFile = userInput.get_string();
+				testFile = new File(customFile);
+				on = 0;
+				break;
+			case 3: // Descriptive file initialization
+				CLEARSCREEN;
+				cout << "FILE LOCATION:\t";
+				location = userInput.get_string();
+				cout << "NAME:\t";
+				name = userInput.get_string();
+				cout << "TYPE:\t";
+				type = userInput.get_string();
+				testFile = new File(location, name, type);
+				on = 0;
+				break;
+			case 8: // Back
+				return 1;
+				break;
+			case 9: // Exit
+				return 0;
+				break;
+		}; // END SWITCH : File Operations menu selection
+	} // END WHILE : FileOperations loop
+
+	on = 1;
+
+	// File operations functionality testing
+	while(on) {
+		menuChoice = userInput.get_integer(1, 9, prompt.sub_test_fileOperationsMenu);
+
+		switch(menuChoice) {
+			case 1: // Print status
+				CLEARSCREEN;
+				printStats_FileOperations(testFile);
+				break;
+			case 8: // Back
+				return 1;
+				break;
+			case 9: // Exit
+				return 0;
+				break;
+		}; // END SWITCH : File operations functionality testing menu selection
+	} // END WHILE : File Operations functionality testing loop
+} // END METHOD test_FileOperations
+
+/* METHOD: print_FileOperations
+ * DESCRIPTION: Prints all status attributes affiliated with the fileOperations module
+ */
+void TerminalView::printStats_FileOperations(File* testFile) {
+	cout << "CURRENT WORKING DIRECTORY:\t" << testFile->getCurrentDirectory() << endl;
+	cout << "TARGET:\t\t\t\t" << testFile->getTarget() << endl;
+	cout << "DIRECTORY:\t\t\t" << testFile->getDirectory() << endl;
+	cout << "TYPE:\t\t\t\t" << testFile->getType() << endl;
+	cout << "NAME:\t\t\t\t" << testFile->getName() << endl;
+} // END METHOD print_FileOperations
 //------------------------------------------------------------------------------------------------------------

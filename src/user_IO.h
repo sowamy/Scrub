@@ -11,16 +11,49 @@ using namespace std;
 
 extern struct promptMessages {
 	// Menu Prompts
-	string test_mainMenu = "MAIN MENU (ENTER VALUE OF MODULE TO TEST AND PRESS ENTER):\n1. TEST\n2. FILE OPERATIONS"
-						"\n3. TEX\n4. IEEE FORMAT\n5. SCRIPT EXTRACTION";
-	string test_testMenu = "TEST MENU (ENTER VALUE OF FUNCTION TO TEST AND PRESS ENTER):\n1. USER INPUT"
-						"\n8. BACK\n9. EXIT";
+	string test_mainMenu = 	"MAIN MENU (ENTER VALUE OF MODULE TO TEST AND PRESS ENTER):\n"
+							"1. TEST\n"
+							"2. FILE OPERATIONS\n"
+							"3. TEX\n"
+							"4. IEEE FORMAT\n"
+							"5. SCRIPT EXTRACTION\n"
+							"9. EXIT\n"
+							"--> ";
+
+	string test_testMenu = 	"TEST MENU (ENTER VALUE OF FUNCTION TO TEST AND PRESS ENTER):\n"
+							"1. USER INPUT\n"
+							"8. BACK\n"
+							"9. EXIT\n"
+							"--> ";
+
+	string test_fileOperationsMenu = 	"FILE OPERATIONS MENU (ENTER VALUE OF FUNCTION TO TEST AND PRESS ENTER):\n"
+										"1. DEFAULT FILE INITIALIZATION\n"
+										"2. CUSTOM FILE INITIALIZATION\n"
+										"3. DESCRIPTIVE FILE INITIALIZATION\n"
+										"8. BACK\n"
+										"9. EXIT\n"
+										"--> ";
 
 	// SubMenu Prompts
-	string sub_test_input = "USER INPUT (ENTER VALUE OF FUNCTION TO TEST AND PRESS ENTER): \n1. GET STRING (BASIC)"
-						"\n2. GET STRING (PROMPT)\n3. GET INTEGER (BASIC)\n4. GET INTEGER (PROMPT)"
-						"\n5. GET FLOAT (BASIC)\n6. GET FLOAT (PROMPT)\n8. BACK\n9. EXIT";
+	string sub_test_input = "USER INPUT (ENTER VALUE OF FUNCTION TO TEST AND PRESS ENTER):\n"
+							"1. GET STRING\n"
+							"2. GET INTEGER\n"
+							"3. GET FLOAT\n"
+							"8. BACK\n"
+							"9. EXIT\n"
+							"--> ";
 
+	string sub_test_userInput = 	"USER INPUT (ENTER VALUE OF FUNCTION TO TEST AND PRESS ENTER):\n"
+									"1. BASIC USER INPUT\n"
+									"2. DEFAULT USER INPUT\n"
+									"3. PROMPTED USER INPUT\n"
+									"--> ";
+
+	string sub_test_fileOperationsMenu =	"FILE OPERATIONS (ENTER VALUE OF FUNCTION TO TEST AND PRESS ENTER):\n"
+											"1. PRINT STATUS\n"
+											"8. BACK\n"
+											"9. EXIT\n"
+											"--> ";
 
 	// Error Handling Messages (Soft Errors)
 	string soft_input = "INVALID INPUT";
