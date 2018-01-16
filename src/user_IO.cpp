@@ -58,9 +58,25 @@ struct promptMessages {
 
 	string sub_test_fileOperationsMenu =	"FILE OPERATIONS (ENTER VALUE OF FUNCTION TO TEST AND PRESS ENTER):\n"
 											"1. PRINT STATUS\n"
+											"2. FILE FORWARD\n"
+											"3. FILE BACK\n"
+											"4. NEW FILE\n"
+											"5. FILE I/O\n"
 											"8. BACK\n"
 											"9. EXIT\n"
 											"--> ";
+
+	string sub_test_fileInputOutputMenu = 	"FILE I/O (ENTER VALUE OF FUNCTION TO TEST AND PRESS ENTER):\n"
+											"1. DOWNLOAD LINE\n"
+											"2. LOAD NEXT LINE\n"
+											"8. BACK\n"
+											"9. EXIT\n"
+											"--> ";
+
+	string sub_test_newFileMenu = 	"FILE CREATION (ENTER VALUE OF FUNCTION TO TEST AND PRESS ENTER): \n"
+									"1. FILE NAME AND TYPE TOGETHER\n"
+									"2. FILE NAME AND TYPE SEPARATED\n"
+									"--> ";
 
 	// Error Handling Messages (Soft Errors)
 	string soft_input = "INVALID INPUT";

@@ -16,7 +16,9 @@ using namespace std;
  * -- fileLocation		:= The path to the directory of the <target> file
  * -- fileName			:= The name of the <target> file
  * -- docIN				:= The file pointer which will control the input stream FROM the file
+ *						NOTE: INTO the program FROM the document.
  * -- docOUT			:= The file pointer which will control the output stream TO the file
+ * 						NOTE: FROM the program INTO the document.
  */
 class File {
 	private:
@@ -37,8 +39,11 @@ class File {
 		~File();
 		void back();
 		void forward(string folder);
+		void createFile(string fileN);
+		void createFile(string fileN, string fileT);
 		void connect();
 		void downloadLine(string content){ docOUT << content << endl; }
+		string uploadLine();
 
 		string getCurrentDirectory(){return cwd;}
 		string getDirectory(){return fileLocation;}
@@ -150,11 +155,40 @@ void File::forward( string folder ) {
 
 } // END METHOD forward
 
+/* METHOD: createFile
+ * DESCRIPTION: Creates a new file at the target directory given the file name and type extension together in one string
+ */
+void File::createFile(string fileN) {
+	size_t fileDot = fileN.find_last_of('.');
+	fileName = fileN.substr(0, fileDot);
+	fileType = fileN.substr(fileDot+1);
+} // END METHOD createFile
+
+/* METHOD: createFile
+ * DESCRIPTION: Creates a new file at the target directory given the file name and type extension in separate strings
+ */
+void File::createFile(string fileN, string fileT) {
+	fileName = fileN;
+	fileType = fileT;
+} // END METHOD createFile
+
 /* METHOD: connect
  * DESCRIPTION: Connect file pointers to the target file
+ * NOTE: Deletes contents of file when connecting
  */
 void File::connect() {
 	setTarget();
 	docIN.open(target.c_str());
 	docOUT.open(target.c_str());
 } // END METHOD connect
+
+/* METHOD: uploadLine
+ * DESCRIPTION: Uploads the next line from the file
+ */
+string File::uploadLine() {
+	string line = "ERROR";
+	if(docIN) {
+		getline(docIN, line);
+	}
+	return line;
+} // END METHOD uploadLine

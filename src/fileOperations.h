@@ -25,14 +25,15 @@ class File {
 		~File();
 		void back();
 		void forward(string folder);
+		void createFile(string fileN);
+		void createFile(string fileN, string fileT);
 		void connect();
 		void downloadLine(string content){ docOUT << content << endl; }
+		string uploadLine();
 
 		string getCurrentDirectory(){return cwd;}
 		string getDirectory(){return fileLocation;}
 		string getName(){return fileName;}
 		string getType(){return fileType;}
 		string getTarget();
-
-		void setDirectory(string custom);
 }; // END CLASS File

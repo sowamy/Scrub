@@ -100,10 +100,13 @@ TerminalView::TerminalView() {
 
 	CLEARSCREEN;
 	
+	// Test module terminal view primary loop
+	// NOTE: To end test module and all testing completely, end this loop (on = 0)
 	while(on) {		
 		
 		menuChoice = userInput.get_integer(1, 9, prompt.test_mainMenu);
 		
+		// Main menu selection
 		switch(menuChoice) {
 			case 1: // Test module itself
 				on = test_Test();
@@ -155,19 +158,23 @@ int TerminalView::test_Test() {
 
 	CLEARSCREEN;
 
+	// Test module testing menu loop
 	while(test_on) {
 
 		menuChoice = userInput.get_integer(1, 9, prompt.test_testMenu);
 		
+		// Test module menu selection
 		switch(menuChoice) {
 			case 1: // Test user input
 
 				CLEARSCREEN;
 
+				// User input primary testing loop
 				while(userInput_on) {
 
 					menuChoice = userInput.get_integer(1, 9, prompt.sub_test_input);
 
+					// User input module testing menu selection
 					switch(menuChoice){
 						case 1: // Test get string 
 							CLEARSCREEN;
@@ -175,6 +182,7 @@ int TerminalView::test_Test() {
 							menuChoice = userInput.get_integer(1, 3, prompt.sub_test_userInput);
 							CLEARSCREEN;
 
+							// String test sub-menu selection
 							switch(menuChoice){
 								case 1: // Basic input		
 									cout << "ENTER STRING: ";
@@ -206,6 +214,7 @@ int TerminalView::test_Test() {
 							menuChoice = userInput.get_integer(1, 3, prompt.sub_test_userInput);
 							CLEARSCREEN;
 
+							// Integer test sub-menu selection
 							switch(menuChoice){
 								case 1: // Basic input		
 									cout << "ENTER INTEGER: ";
@@ -241,6 +250,7 @@ int TerminalView::test_Test() {
 							menuChoice = userInput.get_integer(1, 3, prompt.sub_test_userInput);
 							CLEARSCREEN;
 
+							// Float test sub-menu selection
 							switch(menuChoice){
 								case 1: // Basic input		
 									cout << "ENTER FLOAT: ";
@@ -299,6 +309,15 @@ int TerminalView::test_Test() {
  */
 int TerminalView::test_FileOperations() {
 	int on = 1;
+	int fileIO_on = 1;
+
+	string customFile;
+	string location;
+	string name;
+	string type;
+	string file;
+	string folder;
+	string line;
 
 	File* testFile;
 
@@ -306,13 +325,9 @@ int TerminalView::test_FileOperations() {
 	while(on) {
 		CLEARSCREEN;
 
-		string customFile;
-		string location;
-		string name;
-		string type;
-
 		menuChoice = userInput.get_integer(1, 9, prompt.test_fileOperationsMenu);
 
+		// File initialization menu selection
 		switch(menuChoice) {
 			case 1: // Default file initialization
 				testFile = new File();
@@ -351,10 +366,67 @@ int TerminalView::test_FileOperations() {
 	while(on) {
 		menuChoice = userInput.get_integer(1, 9, prompt.sub_test_fileOperationsMenu);
 
+		// File operations functionality menu selection
 		switch(menuChoice) {
 			case 1: // Print status
 				CLEARSCREEN;
 				printStats_FileOperations(testFile);
+				break;
+			case 2: // File forward
+				CLEARSCREEN;
+				cout << "FOLDER: ";
+				folder = userInput.get_string();
+				testFile->forward(folder);
+				break;
+			case 3: // File back
+				testFile->back();
+				break;
+			case 4: // Create new file
+				CLEARSCREEN;
+				menuChoice = userInput.get_integer(1, 2, prompt.sub_test_newFileMenu);
+
+				// New file menu selection
+				switch(menuChoice) {
+					case 1: // File name and type together
+						cout << "FILE: ";
+						file = userInput.get_string();
+						testFile->createFile(file);
+						break;
+					case 2: // File name and type separate
+						cout << "FILE NAME: ";
+						file = userInput.get_string();
+						cout << "FILE TYPE: ";
+						type = userInput.get_string();
+						testFile->createFile(file, type);
+						break;
+				}; // END SWITCH : New file selection
+
+				break;
+			case 5: // File I/O
+				testFile->connect();
+
+				while(fileIO_on) {
+					menuChoice = userInput.get_integer(1, 9, prompt.sub_test_fileInputOutputMenu);
+					switch(menuChoice) {
+						case 1: // Download Line
+							CLEARSCREEN;
+							cout << "LINE: ";
+							line = userInput.get_string();
+							testFile->downloadLine(line);
+							break;
+						case 2: // Upload next line
+							CLEARSCREEN;
+							cout << "LINE: " << testFile->uploadLine();
+							break;
+						case 8: // Back
+							fileIO_on = 0;
+							break;
+						case 9: // Exit
+							return 0;
+							break;
+					}; // END SWITCH : File I/O Menu Selection
+				} // END WHILE : File I/O Loop
+
 				break;
 			case 8: // Back
 				return 1;
